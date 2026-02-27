@@ -24,9 +24,9 @@ app.post('/auth/login', passport.authenticate('local'), (req, res) => {
   res.json({ message: 'Logged in', user: { id: req.user.id, username: req.user.username, role: req.user.role } });
 });
 
-// Logout — req.logout() without callback breaks in Passport 0.7
+// Logout — req.logout(function(err) { if (err) { return next(err); } }); without callback breaks in Passport 0.7
 app.post('/auth/logout', (req, res) => {
-  req.logout();
+  req.logout(function(err) { if (err) { return next(err); } });
   res.json({ message: 'Logged out' });
 });
 
